@@ -1,0 +1,274 @@
+.page {
+  padding: 40px 0 80px;
+  animation: pageFade 0.4s ease-out;
+}
+
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+
+.header p {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.form {
+  max-width: 640px;
+}
+
+.section {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--color-text);
+}
+
+.hint,
+.selectedHint {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--color-text);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.select {
+  cursor: pointer;
+  background: white;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.chip,
+.chipActive {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border);
+  background: white;
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.chipActive {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.cityInputRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.cityInputRow .input {
+  flex: 1;
+}
+
+.cityChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cityChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.chipRemove {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-primary);
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.chipRemove:hover {
+  opacity: 1;
+}
+
+.customCategory {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.customCategory .input {
+  flex: 1;
+}
+
+.addButton {
+  padding: 12px 20px;
+  background: var(--color-border);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background: #ddd;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.submitButton {
+  padding: 14px 28px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.submitButton:hover {
+  background: var(--color-primary-hover);
+}
+
+.cancelLink {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.cancelLink:hover {
+  color: var(--color-text);
+}
+
+.successCard {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 48px;
+  background: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.successCard h2 {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: var(--color-text);
+}
+
+.successCard p {
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.successButton {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+}
+
+.successButton:hover {
+  background: var(--color-primary-hover);
+}
+
+@media (max-width: 640px) {
+  .customCategory {
+    flex-direction: column;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
