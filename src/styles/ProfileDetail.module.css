@@ -15,7 +15,7 @@
 
 .profile {
   max-width: 640px;
-  background: var(--color-card-bg);
+  background: var(--color-card-bg-solid);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--color-border);

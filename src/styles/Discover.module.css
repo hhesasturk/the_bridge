@@ -31,12 +31,13 @@
 }
 
 .sidebar {
-  background: #f8f9fb;
+  background: var(--color-card-bg-solid);
   border-radius: var(--radius-md);
   padding: 24px;
   height: fit-content;
   position: sticky;
   top: 88px;
+  border: 1px solid var(--color-border);
 }
 
 .filterGroup {
@@ -62,7 +63,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   font-size: 0.9375rem;
-  background: white;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .filterInput {
@@ -97,6 +99,12 @@
 
 .main {
   min-width: 0;
+}
+
+.shareCta {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 20px;
 }
 
 .resultCount {
@@ -140,9 +148,10 @@
 .empty {
   text-align: center;
   padding: 48px 24px;
-  background: #f8f9fb;
+  background: var(--color-card-bg-solid);
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
 }
 
 .empty .clearButton {

@@ -21,6 +21,9 @@ export default function Home() {
                 Influencer kesfet
               </Link>
             </div>
+            <p className={styles.shareCta}>
+              Siteyi paylasarak markalarin size ulasmasina yardimci olun.
+            </p>
           </div>
         </div>
       </section>

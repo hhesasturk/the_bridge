@@ -5,7 +5,7 @@
 }
 
 .header {
-  background: var(--color-bg);
+  background: var(--color-card-bg-solid);
   border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
@@ -91,7 +91,20 @@
 .footerText {
   font-size: 0.875rem;
   max-width: 480px;
-  margin: 0 auto;
+  margin: 0 auto 8px;
+}
+
+.footerContact {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.footerContact a {
+  color: var(--color-primary);
+}
+
+.footerContact a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 640px) {

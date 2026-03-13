@@ -158,9 +158,7 @@ export default function Discover() {
           </aside>
 
           <div className={styles.main}>
-            <p className={styles.resultCount}>
-              {filtered.length} influencer listeleniyor
-            </p>
+            <p className={styles.shareCta}>Siteyi paylasarak markalarin size ulasmasina yardimci olun.</p>
             <div className={styles.grid}>
               {filtered.map((influencer) => (
                 <InfluencerCard key={influencer.id} influencer={influencer} />

@@ -21,3 +21,10 @@ export function saveInfluencer(influencer) {
 export function generateId() {
   return 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 9)
 }
+
+export function deleteInfluencerByUserId(userId) {
+  const list = getStoredInfluencers().filter((i) => i.userId !== userId)
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list))
+  } catch (_) {}
+}

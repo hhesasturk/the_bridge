@@ -38,6 +38,22 @@
   justify-content: center;
 }
 
+.shareCta {
+  margin-top: 24px;
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+.shareCta::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--color-border);
+  margin: 0 auto 12px;
+  border-radius: 1px;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -81,7 +97,7 @@
 
 .features {
   padding: 48px 0;
-  background: #f8f9fb;
+  background: var(--color-bg-soft);
 }
 
 .featuresGrid {
@@ -91,7 +107,7 @@
 }
 
 .featureCard {
-  background: var(--color-card-bg);
+  background: var(--color-card-bg-solid);
   padding: 32px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);

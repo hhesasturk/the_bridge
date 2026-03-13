@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CONTENT_CATEGORIES, COLLABORATION_TYPES, CITIES, CITY_FILTER_ALL } from '../config/constants'
 import { saveInfluencer, generateId } from '../utils/influencerStorage'
+import { getCurrentUser } from '../utils/authStorage'
 import styles from '../styles/CreateProfile.module.css'
 
 const PENDING_USER_KEY = 'thebridge_pending_user'
@@ -12,6 +13,7 @@ export default function CreateProfile() {
   const [instagramHandle, setInstagramHandle] = useState('')
   const [followers, setFollowers] = useState('')
   const [profilePhotoUrl, setProfilePhotoUrl] = useState('')
+  const [avatarUpload, setAvatarUpload] = useState(null)
   const [cities, setCities] = useState([CITY_FILTER_ALL])
   const [cityInput, setCityInput] = useState('')
   const [categories, setCategories] = useState([])
@@ -21,6 +23,12 @@ export default function CreateProfile() {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
+    const user = getCurrentUser()
+    const hasPending = !!localStorage.getItem(PENDING_USER_KEY)
+    if (!user && !hasPending) {
+      navigate('/giris')
+      return
+    }
     try {
       const raw = localStorage.getItem(PENDING_USER_KEY)
       if (!raw) return
@@ -28,7 +36,7 @@ export default function CreateProfile() {
       const firstHandle = data.socialHandles?.instagram || data.socialHandles?.tiktok || data.socialHandles?.youtube || data.socialHandles?.x || data.socialHandles?.facebook
       if (firstHandle && !instagramHandle) setInstagramHandle(firstHandle.startsWith('@') ? firstHandle : '@' + firstHandle)
     } catch (_) {}
-  }, [])
+  }, [navigate])
 
   const toggleCategory = (cat) => {
     setCategories((prev) =>
@@ -73,12 +81,21 @@ export default function CreateProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    let userId = null
+    try {
+      const raw = localStorage.getItem(PENDING_USER_KEY)
+      if (raw) {
+        const data = JSON.parse(raw)
+        userId = data.userId || null
+      }
+    } catch (_) {}
     const displayName = instagramHandle.replace(/^@/, '') || 'influencer'
-    const avatarUrl = profilePhotoUrl.trim() && /^https?:\/\//i.test(profilePhotoUrl.trim())
-      ? profilePhotoUrl.trim()
-      : PLACEHOLDER_AVATAR
+    let avatarUrl = PLACEHOLDER_AVATAR
+    if (avatarUpload) avatarUrl = avatarUpload
+    else if (profilePhotoUrl.trim() && /^https?:\/\//i.test(profilePhotoUrl.trim())) avatarUrl = profilePhotoUrl.trim()
     const newInfluencer = {
       id: generateId(),
+      userId,
       username: displayName,
       fullName: displayName,
       avatar: avatarUrl,
@@ -128,17 +145,39 @@ export default function CreateProfile() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>Instagram / Sosyal Medya</h2>
             <div className={styles.field}>
-              <label className={styles.label}>Profil fotoğrafı</label>
+              <label className={styles.label}>Profil fotografi</label>
+              <p className={styles.hint}>Instagram profil resmi URL'si yapistirabilir veya asagidan kendi fotografi yukleyebilirsiniz.</p>
               <input
                 type="url"
                 className={styles.input}
                 value={profilePhotoUrl}
-                onChange={(e) => setProfilePhotoUrl(e.target.value)}
-                placeholder="Instagram profil fotoğrafı URL'si (opsiyonel)"
+                onChange={(e) => { setProfilePhotoUrl(e.target.value); setAvatarUpload(null) }}
+                placeholder="https://... (opsiyonel)"
               />
-              <p className={styles.hint}>
-                Instagram'da profil fotoğrafınıza sağ tıklayıp &quot;Resim adresini kopyala&quot; ile linki alıp buraya yapıştırabilirsiniz. Otomatik çekim için ileride sunucu tarafı entegrasyon gerekir.
-              </p>
+              <div className={styles.uploadRow}>
+                <label className={styles.fileLabel}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0]
+                      if (f) {
+                        const r = new FileReader()
+                        r.onload = () => setAvatarUpload(r.result)
+                        r.readAsDataURL(f)
+                        setProfilePhotoUrl('')
+                      }
+                    }}
+                  />
+                  Fotograf yukle
+                </label>
+                {avatarUpload && (
+                  <span className={styles.uploadPreview}>
+                    <img src={avatarUpload} alt="Onizleme" width={48} height={48} style={{ borderRadius: 999 }} />
+                    <button type="button" className={styles.removeUpload} onClick={() => setAvatarUpload(null)}>Kaldir</button>
+                  </span>
+                )}
+              </div>
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Instagram kullanici adi (gosterim icin)</label>

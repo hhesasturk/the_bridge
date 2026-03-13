@@ -71,6 +71,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   font-size: 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .input:focus,
@@ -81,7 +83,52 @@
 
 .select {
   cursor: pointer;
-  background: white;
+  background: var(--color-card-bg-solid);
+}
+
+.uploadRow {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fileLabel {
+  display: inline-block;
+  padding: 10px 16px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.fileLabel input {
+  display: none;
+}
+
+.fileLabel:hover {
+  background: rgba(124, 111, 217, 0.3);
+}
+
+.uploadPreview {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.removeUpload {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.removeUpload:hover {
+  color: #f87171;
 }
 
 .textarea {
@@ -92,6 +139,8 @@
   font-size: 1rem;
   resize: vertical;
   min-height: 100px;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .textarea:focus {
@@ -231,7 +280,7 @@
   max-width: 480px;
   margin: 0 auto;
   padding: 48px;
-  background: var(--color-card-bg);
+  background: var(--color-card-bg-solid);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border: 1px solid var(--color-border);
