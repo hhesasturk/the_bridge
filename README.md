@@ -33,7 +33,15 @@ npm run build
 npm run preview
 ```
 
-## Gelecek Icin Altyapi
+## Yayinlama (Vercel)
+
+- Proje GitHub'a push edildiginde Vercel otomatik deploy alir.
+- **maniwebst.com** icin: Vercel Dashboard > Proje (the_bridge) > Settings > Domains > Add: `maniwebst.com` yaz, DNS talimatlarini domain saglayicinda uygula.
+
+## Guvenlik
+
+- `.env` ve `.env.local` dosyalari repoya eklenmez (sifre, API anahtari buraya yazilir).
+- GitHub veya Vercel icin kullandigin giris bilgilerini kod icine yazma; gerekirse ortam degiskenlerini Vercel Dashboard'dan ekle.
 
 Kod yapisi asagidaki ozelliklerin eklenmesine uygun tutuldu:
 

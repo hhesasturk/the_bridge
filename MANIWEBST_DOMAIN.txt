@@ -1,0 +1,23 @@
+MANIWEBST.COM SITEYI NASIL GORUNUR YAPARSIN
+============================================
+
+1. Tarayicida https://vercel.com adresine git, giris yap.
+
+2. Sol taraftan "the_bridge" projesini sec.
+
+3. Ustte "Settings" (Ayarlar) tikla.
+
+4. Soldan "Domains" (Alan Adlari) sec.
+
+5. "Add" veya "Add Domain" de, kutuya su adresi yaz: maniwebst.com
+   Enter'a bas.
+
+6. Eski "Bir ruya gordum" projesi maniwebst.com'a bagliysa:
+   - O projeyi ac, Settings > Domains > maniwebst.com yanindaki uc noktaya tikla > Remove.
+   - Sonra tekrar the_bridge projesinde maniwebst.com'u ekle (yukaridaki 5. adim).
+
+7. Vercel ekranda DNS icin ne yapman gerektigini soyler (ornegin bir CNAME veya A kaydi).
+   Domain'i nereden yonettigini (GoDaddy, Natro, vs.) sec, orada bu kaydi ekle.
+   Kayitlar yayilinca (bazen 5-15 dakika) maniwebst.com bu siteyi gosterecek.
+
+Bitti. Site hem Vercel linkiyle hem de maniwebst.com ile yayinda olur.
