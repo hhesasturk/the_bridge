@@ -1,23 +1,33 @@
-MANIWEBST.COM SITEYI NASIL GORUNUR YAPARSIN
-============================================
+MANIWEBST.COM'U ESKİ SİTEDEN KALDIRIP BU PROJEYE BAĞLAMA
+==========================================================
 
-1. Tarayicida https://vercel.com adresine git, giris yap.
+Aşağıdaki sırayla yap. Toplam 1–2 dakika sürer.
 
-2. Sol taraftan "the_bridge" projesini sec.
+ADIM 1 – Eski siteyi maniwebst.com'dan ayır
+-------------------------------------------
+1. Tarayıcıda https://vercel.com aç, giriş yap.
+2. Sol taraftaki proje listesinden "Bir rüya gördüm" (veya eski projenin adı) projesine tıkla.
+3. Üstte "Settings" (Ayarlar) sekmesine tıkla.
+4. Sol menüden "Domains" (Alan Adları) seçeneğine tıkla.
+5. Listede "maniwebst.com" satırının yanındaki üç nokta (•••) veya çöp kutusu ikonuna tıkla.
+6. "Remove" veya "Kaldır" de. Onaylarsan maniwebst.com artık o projeye bağlı olmaz.
 
-3. Ustte "Settings" (Ayarlar) tikla.
 
-4. Soldan "Domains" (Alan Adlari) sec.
+ADIM 2 – maniwebst.com'u bu projeye (The Bridge) bağla
+-------------------------------------------------------
+1. Sol taraftan "the_bridge" projesini seç.
+2. Üstte "Settings" (Ayarlar) sekmesine tıkla.
+3. Sol menüden "Domains" (Alan Adları) seçeneğine tıkla.
+4. "Add" veya "Add Domain" butonuna tıkla.
+5. Açılan kutuya tam olarak yaz: maniwebst.com
+6. Enter'a bas veya "Add" de.
 
-5. "Add" veya "Add Domain" de, kutuya su adresi yaz: maniwebst.com
-   Enter'a bas.
+Vercel, domain zaten kendi sisteminde kayıtlıysa ekstra DNS değişikliği istemeyebilir; sadece "Added" veya benzeri bir onay görürsün. Eğer CNAME / A kaydı isterse, domain'i yönettiğin yerde (Natro, GoDaddy vb.) aynı kayıt zaten varsa dokunma; birkaç dakika içinde maniwebst.com bu projeyi (The Bridge) göstermeye başlar.
 
-6. Eski "Bir ruya gordum" projesi maniwebst.com'a bagliysa:
-   - O projeyi ac, Settings > Domains > maniwebst.com yanindaki uc noktaya tikla > Remove.
-   - Sonra tekrar the_bridge projesinde maniwebst.com'u ekle (yukaridaki 5. adim).
 
-7. Vercel ekranda DNS icin ne yapman gerektigini soyler (ornegin bir CNAME veya A kaydi).
-   Domain'i nereden yonettigini (GoDaddy, Natro, vs.) sec, orada bu kaydi ekle.
-   Kayitlar yayilinca (bazen 5-15 dakika) maniwebst.com bu siteyi gosterecek.
+Özet
+----
+• Eski proje: Bir rüya gördüm → Settings → Domains → maniwebst.com'u kaldır.
+• Yeni proje: the_bridge → Settings → Domains → maniwebst.com ekle.
 
-Bitti. Site hem Vercel linkiyle hem de maniwebst.com ile yayinda olur.
+Bu işlemleri sadece sen Vercel hesabına giriş yaparak yapabilirsin; Cursor veya başka bir araç senin Vercel paneline erişemez.
