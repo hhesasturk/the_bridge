@@ -40,6 +40,11 @@
   margin-right: 6px;
 }
 
+.socialList {
+  margin-top: 8px;
+  font-size: 0.875rem;
+}
+
 .profileLink {
   margin-top: 12px;
 }

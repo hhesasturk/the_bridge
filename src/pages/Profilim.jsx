@@ -44,6 +44,15 @@ export default function Profilim() {
           <div className={styles.info}>
             <p><strong>Kullanici adi:</strong> {user.username || '-'}</p>
             <p><strong>E-posta:</strong> {user.email}</p>
+            {user.socialHandles && Object.keys(user.socialHandles).some((k) => user.socialHandles[k]) && (
+              <p className={styles.socialList}>
+                <strong>Sosyal medya:</strong>{' '}
+                {Object.entries(user.socialHandles)
+                  .filter(([, v]) => v)
+                  .map(([id, val]) => `${id}: ${val}`)
+                  .join(' · ')}
+              </p>
+            )}
             {myInfluencer && (
               <p className={styles.profileLink}>
                 <Link to={`/influencer/${myInfluencer.id}`}>Profilimi goruntule (Kesfet)</Link>
@@ -52,9 +61,10 @@ export default function Profilim() {
           </div>
 
           <div className={styles.actions}>
-            <Link to="/kesfet" className={styles.primaryBtn}>Kesfet sayfasina git</Link>
+            <Link to="/profilim/duzenle" className={styles.primaryBtn}>Profilimi duzenle</Link>
+            <Link to="/kesfet" className={styles.secondaryBtn}>Kesfet sayfasina git</Link>
             {myInfluencer && (
-              <Link to={`/influencer/${myInfluencer.id}`} className={styles.secondaryBtn}>Kartimi duzenle (yakinda)</Link>
+              <Link to={`/influencer/${myInfluencer.id}`} className={styles.secondaryBtn}>Influencer kartimi goruntule</Link>
             )}
             <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
               Cikis yap

@@ -8,6 +8,7 @@ import CreateProfile from './pages/CreateProfile'
 import Discover from './pages/Discover'
 import ProfileDetail from './pages/ProfileDetail'
 import Profilim from './pages/Profilim'
+import ProfilDuzenle from './pages/ProfilDuzenle'
 import { initSupabaseAuth } from './utils/authSupabase'
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="giris" element={<Auth />} />
           <Route path="profilim" element={<Profilim />} />
+        <Route path="profilim/duzenle" element={<ProfilDuzenle />} />
           <Route path="profil-olustur" element={<CreateProfile />} />
           <Route path="kesfet" element={<Discover />} />
           <Route path="influencer/:id" element={<ProfileDetail />} />

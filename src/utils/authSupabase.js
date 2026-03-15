@@ -5,10 +5,14 @@ function userFromSession(session) {
   if (!session?.user) return null
   const u = session.user
   const username = u.user_metadata?.user_name || u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || ''
+  const socialHandles = u.user_metadata?.social_handles && typeof u.user_metadata.social_handles === 'object'
+    ? u.user_metadata.social_handles
+    : {}
   return {
     id: u.id,
     email: u.email || '',
     username: username.trim() || u.email?.split('@')[0] || 'Kullanici',
+    socialHandles,
   }
 }
 
