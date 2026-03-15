@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CONTENT_CATEGORIES, COLLABORATION_TYPES, CITIES, CITY_FILTER_ALL } from '../config/constants'
-import { saveInfluencer, generateId } from '../utils/influencerStorage'
+import { generateId } from '../utils/influencerStorage'
+import { addInfluencer } from '../utils/influencerDb'
 import { getCurrentUser } from '../utils/authStorage'
 import styles from '../styles/CreateProfile.module.css'
 
@@ -79,16 +80,19 @@ export default function CreateProfile() {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    let userId = null
-    try {
-      const raw = localStorage.getItem(PENDING_USER_KEY)
-      if (raw) {
-        const data = JSON.parse(raw)
-        userId = data.userId || null
-      }
-    } catch (_) {}
+    const currentUser = getCurrentUser()
+    let userId = currentUser?.id || null
+    if (!userId) {
+      try {
+        const raw = localStorage.getItem(PENDING_USER_KEY)
+        if (raw) {
+          const data = JSON.parse(raw)
+          userId = data.userId || null
+        }
+      } catch (_) {}
+    }
     const displayName = instagramHandle.replace(/^@/, '') || 'influencer'
     let avatarUrl = PLACEHOLDER_AVATAR
     if (avatarUpload) avatarUrl = avatarUpload
@@ -107,7 +111,7 @@ export default function CreateProfile() {
       collaborationTypes,
       bio: bio.trim() || '',
     }
-    saveInfluencer(newInfluencer)
+    await addInfluencer(newInfluencer)
     try {
       localStorage.removeItem(PENDING_USER_KEY)
     } catch (_) {}

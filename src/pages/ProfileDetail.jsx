@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { mockInfluencers } from '../data/mockInfluencers'
-import { getStoredInfluencers } from '../utils/influencerStorage'
+import { getAllInfluencers } from '../utils/influencerDb'
 import { CITY_FILTER_ALL } from '../config/constants'
 import styles from '../styles/ProfileDetail.module.css'
 
@@ -17,13 +18,30 @@ function getCityDisplay(influencer) {
   return influencer.city || 'Belirtilmedi'
 }
 
-function getAllInfluencers() {
-  return [...getStoredInfluencers(), ...mockInfluencers]
-}
-
 export default function ProfileDetail() {
   const { id } = useParams()
-  const influencer = getAllInfluencers().find((i) => i.id === id)
+  const [influencer, setInfluencer] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    getAllInfluencers()
+      .then((stored) => [...stored, ...mockInfluencers])
+      .then((all) => all.find((i) => i.id === id))
+      .then((found) => { if (!cancelled) setInfluencer(found ?? null) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div className="container">
+          <p className={styles.loading}>Yukleniyor...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!influencer) {
     return (

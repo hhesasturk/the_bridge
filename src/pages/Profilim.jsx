@@ -1,28 +1,33 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getCurrentUser, setCurrentUser, removeUser } from '../utils/authStorage'
-import { getStoredInfluencers, deleteInfluencerByUserId } from '../utils/influencerStorage'
+import { getInfluencerByUserId, deleteInfluencerByUserId } from '../utils/influencerDb'
+import { supabase, hasSupabase } from '../lib/supabase'
 import styles from '../styles/Profilim.module.css'
 
 export default function Profilim() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [myInfluencer, setMyInfluencer] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     const u = getCurrentUser()
     setUser(u)
     if (!u) navigate('/giris')
+    else getInfluencerByUserId(u.id).then(setMyInfluencer)
   }, [navigate])
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    if (hasSupabase && supabase) await supabase.auth.signOut()
     setCurrentUser(null)
     navigate('/')
   }
 
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (!user || !confirmDelete) return
-    deleteInfluencerByUserId(user.id)
+    await deleteInfluencerByUserId(user.id)
+    if (hasSupabase && supabase) await supabase.auth.signOut()
     removeUser(user.id)
     setCurrentUser(null)
     setConfirmDelete(false)
@@ -30,8 +35,6 @@ export default function Profilim() {
   }
 
   if (!user) return null
-
-  const myInfluencer = getStoredInfluencers().find((i) => i.userId === user.id)
 
   return (
     <div className={styles.page}>

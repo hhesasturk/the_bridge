@@ -1,7 +1,7 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CONTENT_CATEGORIES, CITIES, CITY_FILTER_ALL, FOLLOWER_RANGES, CONTENT_TYPE_FILTER_OPTIONS } from '../config/constants'
 import { mockInfluencers } from '../data/mockInfluencers'
-import { getStoredInfluencers } from '../utils/influencerStorage'
+import { getAllInfluencers } from '../utils/influencerDb'
 import InfluencerCard from '../components/InfluencerCard'
 import styles from '../styles/Discover.module.css'
 
@@ -10,10 +10,15 @@ export default function Discover() {
   const [city, setCity] = useState('')
   const [followerRange, setFollowerRange] = useState('')
   const [contentType, setContentType] = useState('')
+  const [allInfluencers, setAllInfluencers] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const allInfluencers = useMemo(() => {
-    const stored = getStoredInfluencers()
-    return [...stored, ...mockInfluencers]
+  useEffect(() => {
+    let cancelled = false
+    getAllInfluencers().then((stored) => {
+      if (!cancelled) setAllInfluencers([...stored, ...mockInfluencers])
+    }).finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
   }, [])
 
   const filtered = useMemo(() => {
@@ -159,6 +164,7 @@ export default function Discover() {
 
           <div className={styles.main}>
             <p className={styles.shareCta}>Siteyi paylasarak markalarin size ulasmasina yardimci olun.</p>
+            {loading && <p className={styles.loading}>Influencerlar yukleniyor...</p>}
             <div className={styles.grid}>
               {filtered.map((influencer) => (
                 <InfluencerCard key={influencer.id} influencer={influencer} />
