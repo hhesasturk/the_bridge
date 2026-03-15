@@ -28,10 +28,16 @@ export default function Auth() {
     setLoading(true)
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/profilim` },
+      options: { redirectTo: window.location.origin },
     })
     setLoading(false)
-    if (err) setError(err.message || 'Google ile giris yapilirken hata olustu.')
+    if (err) {
+      const msg = err.message || 'Google ile giris yapilirken hata olustu.'
+      const hint = err.message?.includes('500') || err.message?.includes('unexpected')
+        ? ' Supabase Dashboard: Authentication > URL Configuration icinde Redirect URLs\'e sitenizin adresini (ornegin https://maniwebst.com) ekleyin. Google Console\'da da Redirect URI\'nin Supabase callback adresi oldugundan emin olun.'
+        : ''
+      setError(msg + hint)
+    }
   }
 
   const togglePlatform = (id) => {

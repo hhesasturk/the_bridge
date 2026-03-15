@@ -17,6 +17,10 @@ export function initSupabaseAuth() {
   supabase.auth.getSession().then(({ data: { session } }) => {
     if (session?.user) setCurrentUser(userFromSession(session))
     else setCurrentUser(null)
+    // Google OAuth sonrasi ana sayfaya donulduysa /profilim'e yonlendir
+    if (session?.user && typeof window !== 'undefined' && window.location.pathname === '/' && window.location.hash) {
+      window.location.replace(window.location.origin + '/profilim')
+    }
   })
   supabase.auth.onAuthStateChange((_event, session) => {
     if (session?.user) setCurrentUser(userFromSession(session))
