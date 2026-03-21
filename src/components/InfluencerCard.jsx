@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CITY_FILTER_ALL } from '../config/constants'
 import styles from '../styles/InfluencerCard.module.css'
@@ -15,20 +16,34 @@ function getCityDisplay(influencer) {
   return influencer.city || 'Belirtilmedi'
 }
 
+function initialLetter(username) {
+  const s = (username || '?').trim()
+  return s.charAt(0).toUpperCase() || '?'
+}
+
 export default function InfluencerCard({ influencer }) {
-  const { id, username, avatar, followers, categories } = influencer
+  const { id, username, avatar, followers, categories = [] } = influencer
   const cityDisplay = getCityDisplay(influencer)
-  const defaultAvatar = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop'
+  const hasPhoto = avatar && String(avatar).trim().length > 0
+  const [imgBroken, setImgBroken] = useState(false)
+  const showImage = hasPhoto && !imgBroken
 
   return (
     <article className={styles.card}>
       <div className={styles.avatarWrap}>
-        <img
-          src={avatar || defaultAvatar}
-          alt={username}
-          className={styles.avatar}
-          onError={(e) => { e.target.onerror = null; e.target.src = defaultAvatar }}
-        />
+        {showImage ? (
+          <img
+            src={avatar}
+            alt={username}
+            className={styles.avatar}
+            onError={() => setImgBroken(true)}
+          />
+        ) : null}
+        {!showImage ? (
+          <div className={styles.avatarPlaceholder} aria-hidden>
+            {initialLetter(username)}
+          </div>
+        ) : null}
       </div>
       <h3 className={styles.username}>{username}</h3>
       <p className={styles.followers}>{formatFollowers(followers)} takipci</p>

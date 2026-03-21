@@ -1,7 +1,11 @@
 // Icerik kategorileri - influencer coklu secim yapabilir
 export const CONTENT_CATEGORIES = [
   'Moda',
+  'Giyim',
+  'Tesettur',
   'Fitness',
+  'Spor',
+  'Saglik',
   'Yemek',
   'Seyahat',
   'Teknoloji',
@@ -12,6 +16,10 @@ export const CONTENT_CATEGORIES = [
   'Guzellik',
   'Anne / Cocuk',
   'Fotografcilik',
+  'Kozmetik',
+  'Ev dekorasyonu',
+  'Finans',
+  'Muzik',
 ]
 
 // Is birligi turleri

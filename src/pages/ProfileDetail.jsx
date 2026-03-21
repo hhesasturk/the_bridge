@@ -18,10 +18,20 @@ function getCityDisplay(influencer) {
   return influencer.city || 'Belirtilmedi'
 }
 
+function initialLetter(username) {
+  const s = (username || '?').trim()
+  return s.charAt(0).toUpperCase() || '?'
+}
+
 export default function ProfileDetail() {
   const { id } = useParams()
   const [influencer, setInfluencer] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [imgBroken, setImgBroken] = useState(false)
+
+  useEffect(() => {
+    setImgBroken(false)
+  }, [id])
 
   useEffect(() => {
     let cancelled = false
@@ -58,6 +68,8 @@ export default function ProfileDetail() {
 
   const { username, fullName, avatar, instagramHandle, followers, categories = [], collaborationTypes = [], bio } = influencer
   const cityDisplay = getCityDisplay(influencer)
+  const hasPhoto = avatar && String(avatar).trim().length > 0
+  const showImage = hasPhoto && !imgBroken
 
   return (
     <div className={styles.page}>
@@ -69,15 +81,19 @@ export default function ProfileDetail() {
         <div className={styles.profile}>
           <div className={styles.header}>
             <div className={styles.avatarWrap}>
-              <img
-                src={avatar}
-                alt={username}
-                className={styles.avatar}
-                onError={(e) => {
-                  e.target.onerror = null
-                  e.target.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop'
-                }}
-              />
+              {showImage ? (
+                <img
+                  src={avatar}
+                  alt={username}
+                  className={styles.avatar}
+                  onError={() => setImgBroken(true)}
+                />
+              ) : null}
+              {!showImage ? (
+                <div className={styles.avatarPlaceholder} aria-hidden>
+                  {initialLetter(username)}
+                </div>
+              ) : null}
             </div>
             <div className={styles.headerInfo}>
               <h1 className={styles.fullName}>{fullName}</h1>

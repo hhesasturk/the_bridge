@@ -15,10 +15,18 @@ export default function Discover() {
 
   useEffect(() => {
     let cancelled = false
-    getAllInfluencers().then((stored) => {
-      if (!cancelled) setAllInfluencers([...stored, ...mockInfluencers])
-    }).finally(() => { if (!cancelled) setLoading(false) })
-    return () => { cancelled = true }
+    const load = () => {
+      getAllInfluencers().then((stored) => {
+        if (!cancelled) setAllInfluencers([...stored, ...mockInfluencers])
+      }).finally(() => { if (!cancelled) setLoading(false) })
+    }
+    load()
+    const onUpd = () => { setLoading(true); load() }
+    window.addEventListener('influencers-updated', onUpd)
+    return () => {
+      cancelled = true
+      window.removeEventListener('influencers-updated', onUpd)
+    }
   }, [])
 
   const filtered = useMemo(() => {

@@ -26,9 +26,11 @@ export default function Auth() {
     }
     setError('')
     setLoading(true)
+    // www ile girilse bile redirect'i www'siz gonder (Supabase'te tek URL tutmak icin)
+    const origin = window.location.origin.replace(/^(https?):\/\/www\./, '$1://')
     const { error: err } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo: origin },
     })
     setLoading(false)
     if (err) {

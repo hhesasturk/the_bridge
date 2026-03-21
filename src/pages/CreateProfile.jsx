@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CONTENT_CATEGORIES, COLLABORATION_TYPES, CITIES, CITY_FILTER_ALL } from '../config/constants'
 import { generateId } from '../utils/influencerStorage'
-import { addInfluencer } from '../utils/influencerDb'
+import { upsertInfluencer } from '../utils/influencerDb'
 import { getCurrentUser } from '../utils/authStorage'
 import styles from '../styles/CreateProfile.module.css'
 
 const PENDING_USER_KEY = 'thebridge_pending_user'
-const PLACEHOLDER_AVATAR = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop'
-
 export default function CreateProfile() {
   const navigate = useNavigate()
   const [instagramHandle, setInstagramHandle] = useState('')
@@ -32,10 +30,15 @@ export default function CreateProfile() {
     }
     try {
       const raw = localStorage.getItem(PENDING_USER_KEY)
-      if (!raw) return
-      const data = JSON.parse(raw)
-      const firstHandle = data.socialHandles?.instagram || data.socialHandles?.tiktok || data.socialHandles?.youtube || data.socialHandles?.x || data.socialHandles?.facebook
-      if (firstHandle && !instagramHandle) setInstagramHandle(firstHandle.startsWith('@') ? firstHandle : '@' + firstHandle)
+      if (raw) {
+        const data = JSON.parse(raw)
+        const firstHandle = data.socialHandles?.instagram || data.socialHandles?.tiktok || data.socialHandles?.youtube || data.socialHandles?.x || data.socialHandles?.facebook
+        if (firstHandle && !instagramHandle) setInstagramHandle(firstHandle.startsWith('@') ? firstHandle : '@' + firstHandle)
+      } else if (user?.socialHandles) {
+        const h = user.socialHandles
+        const firstHandle = h.instagram || h.tiktok || h.youtube || h.x || h.facebook
+        if (firstHandle && !instagramHandle) setInstagramHandle(firstHandle.startsWith('@') ? firstHandle : '@' + firstHandle)
+      }
     } catch (_) {}
   }, [navigate])
 
@@ -93,8 +96,9 @@ export default function CreateProfile() {
         }
       } catch (_) {}
     }
-    const displayName = instagramHandle.replace(/^@/, '') || 'influencer'
-    let avatarUrl = PLACEHOLDER_AVATAR
+    const fromIg = instagramHandle.replace(/^@/, '').trim()
+    const displayName = fromIg || (currentUser?.username || '').trim() || 'influencer'
+    let avatarUrl = ''
     if (avatarUpload) avatarUrl = avatarUpload
     else if (profilePhotoUrl.trim() && /^https?:\/\//i.test(profilePhotoUrl.trim())) avatarUrl = profilePhotoUrl.trim()
     const newInfluencer = {
@@ -111,10 +115,11 @@ export default function CreateProfile() {
       collaborationTypes,
       bio: bio.trim() || '',
     }
-    await addInfluencer(newInfluencer)
+    await upsertInfluencer(newInfluencer)
     try {
       localStorage.removeItem(PENDING_USER_KEY)
     } catch (_) {}
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('influencers-updated'))
     setSaved(true)
     setTimeout(() => navigate('/kesfet'), 1200)
   }
@@ -150,7 +155,7 @@ export default function CreateProfile() {
             <h2 className={styles.sectionTitle}>Instagram / Sosyal Medya</h2>
             <div className={styles.field}>
               <label className={styles.label}>Profil fotografi</label>
-              <p className={styles.hint}>Instagram profil resmi URL'si yapistirabilir veya asagidan kendi fotografi yukleyebilirsiniz.</p>
+              <p className={styles.hint}>Profil fotografi tamamen istege bagli. Yuklemezseniz veya URL girmezseniz kesfet kartinda sadece isminizin bas harfi gorunur.</p>
               <input
                 type="url"
                 className={styles.input}

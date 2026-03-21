@@ -27,24 +27,48 @@ export async function getAllInfluencers() {
   return getStoredInfluencers()
 }
 
+function buildRow(influencer) {
+  return {
+    user_id: influencer.userId,
+    username: influencer.username || '',
+    full_name: influencer.fullName || influencer.username || '',
+    avatar_url: influencer.avatar && String(influencer.avatar).trim() ? influencer.avatar : null,
+    instagram_handle: influencer.instagramHandle || null,
+    followers: Number(influencer.followers) || 0,
+    city: influencer.city || null,
+    cities: influencer.cities || [],
+    categories: influencer.categories || [],
+    collaboration_types: influencer.collaborationTypes || [],
+    bio: influencer.bio || null,
+  }
+}
+
 export async function addInfluencer(influencer) {
   if (hasSupabase && supabase && influencer.userId) {
-    const row = {
-      user_id: influencer.userId,
-      username: influencer.username || '',
-      full_name: influencer.fullName || influencer.username || '',
-      avatar_url: influencer.avatar || null,
-      instagram_handle: influencer.instagramHandle || null,
-      followers: Number(influencer.followers) || 0,
-      city: influencer.city || null,
-      cities: influencer.cities || [],
-      categories: influencer.categories || [],
-      collaboration_types: influencer.collaborationTypes || [],
-      bio: influencer.bio || null,
-    }
+    const row = buildRow(influencer)
     const { data, error } = await supabase.from('influencers').insert(row).select('id').single()
     if (!error && data) return { ...influencer, id: data.id }
   }
+  const withId = { ...influencer, id: influencer.id || generateId() }
+  saveLocal(withId)
+  return withId
+}
+
+/** Ayni user_id varsa gunceller; yoksa ekler (Keşfet'te tek kart, cift kayit onlenir) */
+export async function upsertInfluencer(influencer) {
+  const userId = influencer.userId
+  if (hasSupabase && supabase && userId) {
+    const existing = await getInfluencerByUserId(userId)
+    const row = buildRow(influencer)
+    if (existing?.id) {
+      const { data, error } = await supabase.from('influencers').update(row).eq('id', existing.id).select('id').single()
+      if (!error && data) return { ...influencer, id: data.id }
+    } else {
+      const { data, error } = await supabase.from('influencers').insert(row).select('id').single()
+      if (!error && data) return { ...influencer, id: data.id }
+    }
+  }
+  if (userId) deleteLocalByUserId(userId)
   const withId = { ...influencer, id: influencer.id || generateId() }
   saveLocal(withId)
   return withId

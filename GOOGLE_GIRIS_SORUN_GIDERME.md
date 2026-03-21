@@ -1,6 +1,24 @@
 # Google ile giriş 500 hatası – kontrol listesi
 
-"Unexpected failure" (500) hatası alıyorsanız aşağıdakileri kontrol edin.
+"Unexpected failure" (500) hatası alıyorsanız aşağıdakileri **sırayla** deneyin.
+
+---
+
+## 0. ÖNEMLİ: E-posta onayını kapatın (en sık çözüm)
+
+Google ile girişte 500 hatası çoğu zaman **Confirm email** açık olduğu için oluşur. Supabase, Google’dan dönen kullanıcıyı işlerken e-posta doğrulama adımında hata veriyor olabilir.
+
+1. **Supabase Dashboard** → **Authentication** → **Providers** (veya **Kullanıcı Kayıtları / User Registrations** bölümü)
+2. **Confirm email** (E-posta onayı) anahtarını **KAPATIN** (OFF).
+3. **Değişiklikleri kaydet** deyin.
+4. Tekrar “Google ile Giriş Yap” deneyin.
+
+Diğer ayarlar:
+- **Allow new users to sign up** → Açık (ON) kalmalı.
+- **Allow manual linking** → Kapalı kalabilir.
+- **Allow anonymous sign-ins** → Kapalı kalabilir.
+
+---
 
 ## 1. Supabase – URL Configuration
 
@@ -10,8 +28,8 @@
    - Yerel: `http://localhost:5173`
 3. **Redirect URLs** listesinde mutlaka şunlar olsun (her biri ayrı satır):
    - `https://maniwebst.com`
+   - `https://www.maniwebst.com`  ← **www ile giriyorsaniz bu da ekli olsun, yoksa 500 alabilirsiniz**
    - `http://localhost:5173`
-   - (İsterseniz) `https://maniwebst.com/profilim`
 4. **Save** deyin.
 
 ## 2. Google Cloud Console – Authorized redirect URIs
@@ -39,4 +57,4 @@ Uygulama **Testing** modundaysa sadece eklediğiniz e-postalar giriş yapabilir:
 
 ---
 
-Bu adımlardan sonra tekrar “Google ile Giriş Yap” deneyin. Hata sürerse Supabase Dashboard → **Logs** (veya **Authentication** logları) bölümünden ilgili 500 hatasının detayına bakın.
+Bu adımlardan sonra tekrar “Google ile Giriş Yap” deneyin. **Özet:** Önce **Confirm email**’ı kapatın (bölüm 0). Hata sürerse 1–4’ü kontrol edin. Hata sürerse Supabase Dashboard → **Logs** (veya **Authentication** logları) bölümünden ilgili 500 hatasının detayına bakın.

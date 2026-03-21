@@ -9,13 +9,24 @@ export default function Profilim() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
   const [myInfluencer, setMyInfluencer] = useState(null)
+  const [checkingProfile, setCheckingProfile] = useState(true)
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     const u = getCurrentUser()
+    if (!u) {
+      navigate('/giris')
+      return
+    }
     setUser(u)
-    if (!u) navigate('/giris')
-    else getInfluencerByUserId(u.id).then(setMyInfluencer)
+    getInfluencerByUserId(u.id).then((inf) => {
+      if (!inf) {
+        navigate('/profil-olustur', { replace: true })
+        return
+      }
+      setMyInfluencer(inf)
+      setCheckingProfile(false)
+    })
   }, [navigate])
 
   const handleLogout = async () => {
@@ -35,6 +46,16 @@ export default function Profilim() {
   }
 
   if (!user) return null
+
+  if (checkingProfile) {
+    return (
+      <div className={styles.page}>
+        <div className="container">
+          <p className={styles.checking}>Profil kontrol ediliyor...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.page}>
