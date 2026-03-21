@@ -39,6 +39,7 @@ npm run preview
 - Proje GitHub'a push edildiginde Vercel otomatik deploy alir.
 - **Deploy gormuyorsan:** **Domains** sekmesinde build listesi yoktur; ustten **Deployments** sekmesine gec.
 - **Hic tetiklenmiyorsa:** Settings > **Git** > bagli repo `hhesasturk/the_bridge`, Production Branch `main` olmali; degilse Git'i yeniden bagla. **Deployments** > ... > **Redeploy** ile manuel alinabilir.
+- GitHub'da yeni commit varken Vercel hâlâ eski commit gosteriyorsa: **`VERCEL_GITHUB_BAGLANTI.md`** dosyasina bak (webhook / Deploy Hook).
 - **maniwebst.com** icin: Vercel Dashboard > Proje (the_bridge) > Settings > Domains > Add: `maniwebst.com` yaz, DNS talimatlarini domain saglayicinda uygula.
 
 ## Supabase (opsiyonel)

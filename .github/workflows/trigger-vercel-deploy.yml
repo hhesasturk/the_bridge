@@ -1,0 +1,23 @@
+# GitHub -> Vercel otomatik webhook bazen durur (Vercel ekrani eski commit'te kalir).
+# Cozum 1: Vercel > Settings > Git > repo'yu Disconnect + tekrar Connect
+# Cozum 2: Asagidaki Deploy Hook + secret (tek satir, ucretsiz)
+name: Vercel deploy tetikle
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy-hook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Vercel Deploy Hook (varsa)
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::notice::VERCEL_DEPLOY_HOOK tanimli degil. Vercel Git baglantisini yenileyin veya README'deki Deploy Hook adimlarini uygulayin."
+            exit 0
+          fi
+          curl -sfS -X POST "$HOOK"
+          echo "Deploy hook cagrildi."
