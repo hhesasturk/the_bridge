@@ -37,6 +37,8 @@ npm run preview
 ## Yayinlama (Vercel)
 
 - Proje GitHub'a push edildiginde Vercel otomatik deploy alir.
+- **Deploy gormuyorsan:** **Domains** sekmesinde build listesi yoktur; ustten **Deployments** sekmesine gec.
+- **Hic tetiklenmiyorsa:** Settings > **Git** > bagli repo `hhesasturk/the_bridge`, Production Branch `main` olmali; degilse Git'i yeniden bagla. **Deployments** > ... > **Redeploy** ile manuel alinabilir.
 - **maniwebst.com** icin: Vercel Dashboard > Proje (the_bridge) > Settings > Domains > Add: `maniwebst.com` yaz, DNS talimatlarini domain saglayicinda uygula.
 
 ## Supabase (opsiyonel)
