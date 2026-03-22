@@ -44,7 +44,7 @@ export default function ProfileDetail() {
     let cancelled = false
     getAllInfluencers()
       .then((stored) => [...stored, ...mockInfluencers])
-      .then((all) => all.find((i) => i.id === id))
+      .then((all) => all.find((i) => String(i.id) === String(id)))
       .then((found) => { if (!cancelled) setInfluencer(found ?? null) })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
@@ -77,6 +77,9 @@ export default function ProfileDetail() {
   const cityDisplay = getCityDisplay(influencer)
   const hasPhoto = avatar && String(avatar).trim().length > 0
   const showImage = hasPhoto && !imgBroken
+  const igUser = instagramUsernameForLinks(influencer)
+  const instagramProfileUrl = igUser ? `https://www.instagram.com/${encodeURIComponent(igUser)}/` : null
+  const instagramDmUrl = igUser ? `https://ig.me/m/${encodeURIComponent(igUser)}` : null
 
   return (
     <div className={styles.page}>
