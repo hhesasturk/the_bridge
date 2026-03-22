@@ -23,6 +23,13 @@ function initialLetter(username) {
   return s.charAt(0).toUpperCase() || '?'
 }
 
+/** Instagram profil / DM linkleri icin @'siz kullanici adi (once instagramHandle) */
+function instagramUsernameForLinks(influencer) {
+  const h = (influencer.instagramHandle || '').replace(/^@/, '').trim()
+  if (h) return h
+  return (influencer.username || '').replace(/^@/, '').trim()
+}
+
 export default function ProfileDetail() {
   const { id } = useParams()
   const [influencer, setInfluencer] = useState(null)
@@ -126,26 +133,41 @@ export default function ProfileDetail() {
           {collaborationTypes.length > 0 && (
             <section className={styles.section}>
               <h2 className={styles.sectionTitle}>Kabul Ettigi Is Birligi Turleri</h2>
-              <ul className={styles.list}>
+              <div className={styles.tags}>
                 {collaborationTypes.map((type) => (
-                  <li key={type}>{type}</li>
+                  <span key={type} className={styles.tag}>
+                    {type}
+                  </span>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
           <div className={styles.actions}>
-            <a
-              href={`https://instagram.com/${username.replace('@', '')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.primaryButton}
-            >
-              Instagram profili
-            </a>
-            <button type="button" className={styles.secondaryButton}>
-              Iletisime gec
-            </button>
+            {instagramProfileUrl && (
+              <a
+                href={instagramProfileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.primaryButton}
+              >
+                Instagram profili
+              </a>
+            )}
+            {instagramDmUrl ? (
+              <a
+                href={instagramDmUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.secondaryButton}
+              >
+                Iletisime gec
+              </a>
+            ) : (
+              <p className={styles.actionsHint}>
+                DM icin profilde Instagram kullanici adi tanimli olmali.
+              </p>
+            )}
           </div>
         </div>
       </div>

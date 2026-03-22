@@ -12,8 +12,8 @@
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: #d0d0d8;
+  box-shadow: var(--shadow-md), 0 0 24px rgba(124, 111, 217, 0.12);
+  border-color: rgba(124, 111, 217, 0.35);
   transform: translateY(-3px);
 }
 
@@ -73,11 +73,13 @@
 
 .tag {
   font-size: 0.75rem;
-  padding: 4px 10px;
-  background: var(--color-primary-light);
-  color: var(--color-primary);
+  padding: 5px 10px;
+  background: var(--chip-surface);
+  border: 1px solid var(--chip-border);
+  color: var(--chip-text);
   border-radius: 999px;
   font-weight: 500;
+  backdrop-filter: blur(6px);
 }
 
 .button {
